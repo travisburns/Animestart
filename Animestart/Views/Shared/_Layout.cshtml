@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FirstFrame</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/animestart.styles.css" asp-append-version="true" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #6A1B9A;">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FirstFrame</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Anime" asp-action="Index">Anime Library</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="AnimeTerm" asp-action="Index">Dictionary</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="StarterPack" asp-action="Index">Starter Packs</a>
+                        </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Profile" asp-action="Index">My Profile</a>
+                            </li>
+                        }
+
+
+
+
+                        @if (User.IsInRole(RoleConstants.Administrator))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="UserManagement">Manage Users</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="ManageAnime">Manage Anime</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="ManageTerms">Manage Terms</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="ManageStarterPacks">Manage Starter Packs</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                    <div class="d-flex">
+                        <div class="search-container me-2">
+                            <form asp-controller="Anime" asp-action="Index" method="get" class="d-flex">
+                                <input type="text" name="searchString" class="form-control form-control-sm" placeholder="Search anime...">
+                                <button type="submit" class="btn btn-sm btn-outline-light ms-2">Search</button>
+                            </form>
+                        </div>
+
+                        <!-- Authentication links -->
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <span class="text-white me-2">Hello @User.Identity.Name!</span>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-outline-light">Logout</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-sm btn-outline-light me-2">Login</a>
+                            <a asp-controller="Account" asp-action="Register" class="btn btn-sm btn-outline-light">Register</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="@(ViewData["Title"]?.ToString() == "Home Page" ? "container-fluid p-0" : "container") flex-grow-1">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted mt-auto">
+        <div class="container">
+            &copy; 2025 - FirstFrame - <a href="#">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<animestart.Models.UserRecommendation>
+@{
+    ViewData["Title"] = "My Recommendations";
+}
+
+<div class="main-container">
+    <div class="anime-section">
+        <h2>My Recommendations</h2>
+
+        @if (!Model.Any())
+        {
+            <p>You haven't added any recommendations yet.</p>
+        }
+        else
+        {
+            <div class="recommendation-grid">
+                @foreach (var rec in Model)
+                {
+                    <div class="recommendation-card">
+                        <h4>
+                            <a asp-controller="Anime" asp-action="Details" asp-route-id="@rec.AnimeId">@rec.Anime.Title</a>
+                        </h4>
+                        <div class="rating">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span>@(i <= rec.Rating ? "★" : "☆")</span>
+                            }
+                        </div>
+                        <p class="comment">@rec.Comment</p>
+                        <div class="actions">
+                            <a asp-action="Edit" asp-route-id="@rec.Id" class="btn btn-sm btn-primary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@rec.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

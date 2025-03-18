@@ -1,0 +1,75 @@
+﻿@model animestart.Models.StarterPack
+@{
+    ViewData["Title"] = Model.Name;
+}
+<div class="main-container">
+    <div class="anime-section">
+        <div class="starter-pack-detail">
+            <h2>@Model.Name</h2>
+
+            <div class="pack-description">
+                <p>@Model.Description</p>
+            </div>
+            <h3>Recommended Anime</h3>
+            <div class="anime-grid">
+                @if (Model.Animes != null && Model.Animes.Any())
+                {
+                    @foreach (var anime in Model.Animes)
+                    {
+                        <div class="anime-card">
+                            <div class="anime-image">
+                                <img src="/images/default-anime.jpg" alt="@anime.Title">
+                                <span class="badge">SUB/DUB</span>
+                            </div>
+                            <div class="anime-info">
+                                <h4>@anime.Title</h4>
+                                <p>@anime.Genre</p>
+                                <div class="rating">
+                                    <div class="stars">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <span>@(i <= anime.Rating ? "★" : "☆")</span>
+                                        }
+                                    </div>
+                                </div>
+                                <a asp-controller="Anime" asp-action="Details" asp-route-id="@anime.Id" class="btn btn-primary btn-sm mt-2">View Details</a>
+                            </div>
+                        </div>
+                    }
+                }
+                else if (ViewBag.RecommendedAnime != null)
+                {
+                    @foreach (var anime in ViewBag.RecommendedAnime)
+                    {
+                        <div class="anime-card">
+                            <div class="anime-image">
+                                <img src="@(string.IsNullOrEmpty(anime.ImagePath) ? "/images/default-anime.jpg" : anime.ImagePath)" alt="@anime.Title">
+                                
+                            </div>
+                            <div class="anime-info">
+                                <h4>@anime.Title</h4>
+                                <p>@anime.Genre</p>
+                                <div class="rating">
+                                    <div class="stars">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <span>@(i <= anime.Rating ? "★" : "☆")</span>
+                                        }
+                                    </div>
+                                </div>
+                                <a asp-controller="Anime" asp-action="Details" asp-route-id="@anime.Id" class="btn btn-primary btn-sm mt-2">View Details</a>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">No anime added to this starter pack yet.</p>
+                }
+            </div>
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Back to Starter Packs</a>
+            </div>
+        </div>
+    </div>
+</div>

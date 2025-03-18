@@ -1,0 +1,74 @@
+﻿@model IEnumerable<animestart.Models.Anime>
+@{
+    ViewData["Title"] = "Anime Library";
+}
+
+<div class="main-container">
+    <div class="anime-section">
+        <h2>Anime Library</h2>
+        <p>Browse our collection of anime for beginners and beyond.</p>
+
+        <!-- Filter Form -->
+        <div class="filter-section">
+            <form method="get" class="mb-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="searchString" class="form-control" placeholder="Search titles...">
+                    </div>
+                    <div class="col-md-3">
+                        <select name="genre" class="form-control">
+                            <option value="">All Genres</option>
+                            @foreach (var genre in ViewBag.Genres)
+                            {
+                                <option value="@genre">@genre</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="rating" class="form-control">
+                            <option value="">All Ratings</option>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <option value="@i">@i Stars</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Anime Grid -->
+        <div class="anime-grid">
+            @foreach (var anime in Model)
+            {
+                <div class="anime-card">
+                    <div class="anime-image">
+                        <img src="@(string.IsNullOrEmpty(anime.ImagePath) ? "/images/default-anime.jpg" : anime.ImagePath)" alt="@anime.Title">
+                        
+                    </div>
+                    <div class="anime-info">
+                        <h4>@anime.Title</h4>
+                        <p>@anime.Genre</p>
+                        <div class="rating">
+                            <div class="stars">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span>@(i <= anime.Rating ? "★" : "☆")</span>
+                                }
+                            </div>
+                        </div>
+                        <a asp-action="Details" asp-route-id="@anime.Id" class="btn btn-primary btn-sm mt-2">View Details</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">No anime found matching your criteria.</div>
+        }
+    </div>
+</div>

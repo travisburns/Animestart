@@ -1,0 +1,75 @@
+﻿@model animestart.Models.StarterPack
+@{
+    ViewData["Title"] = "Manage Anime in Starter Pack";
+}
+<div class="main-container">
+    <div class="anime-section">
+        <h2>Manage Anime in "@Model.Name"</h2>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h4>Current Anime in Starter Pack</h4>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Animes != null && Model.Animes.Any())
+                        {
+                            <ul class="list-group">
+                                @foreach (var anime in Model.Animes)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>@anime.Title (@anime.Year) - @anime.Genre</span>
+                                        <form asp-action="RemoveAnimeFromStarterPack" asp-controller="Admin" method="post" class="d-inline">
+                                            <input type="hidden" name="starterPackId" value="@Model.Id" />
+                                            <input type="hidden" name="animeId" value="@anime.Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                        </form>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No anime added to this starter pack yet.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h4>Available Anime</h4>
+                    </div>
+                    <div class="card-body">
+                        @if (ViewBag.AvailableAnime != null && ViewBag.AvailableAnime.Count > 0)
+                        {
+                            <ul class="list-group">
+                                @foreach (var anime in ViewBag.AvailableAnime)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>@anime.Title (@anime.Year) - @anime.Genre</span>
+                                        <form asp-action="AddAnimeToStarterPack" asp-controller="Admin" method="post" class="d-inline">
+                                            <input type="hidden" name="starterPackId" value="@Model.Id" />
+                                            <input type="hidden" name="animeId" value="@anime.Id" />
+                                            <button type="submit" class="btn btn-sm btn-success">Add</button>
+                                        </form>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No more anime available to add.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="ManageStarterPacks" class="btn btn-secondary">Back to Starter Packs</a>
+        </div>
+    </div>
+</div>

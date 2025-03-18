@@ -1,0 +1,38 @@
+﻿@model List<UserViewModel>
+
+<div class="container">
+    <h2>User Management</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Current Roles</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@string.Join(", ", user.Roles)</td>
+                    <td>
+                        <div class="btn-group">
+                            <form asp-action="SetUserRole" method="post">
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <button type="submit" name="role" value="Member"
+                                        class="btn btn-sm btn-primary">
+                                    Set as Member
+                                </button>
+                                <button type="submit" name="role" value="Administrator"
+                                        class="btn btn-sm btn-danger">
+                                    Set as Admin
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

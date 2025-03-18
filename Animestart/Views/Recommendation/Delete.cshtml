@@ -1,0 +1,32 @@
+﻿@model animestart.Models.UserRecommendation
+@{
+    ViewData["Title"] = "Delete Recommendation";
+}
+
+<div class="main-container">
+    <div class="recommendation-section">
+        <h2>Delete Recommendation</h2>
+
+        <div class="alert alert-danger">
+            <h3>Are you sure you want to delete this recommendation?</h3>
+            <p>This action cannot be undone.</p>
+        </div>
+
+        <div class="detail-card mb-4">
+            <h4>Recommendation for @Model.Anime.Title</h4>
+            <div class="stars">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <span>@(i <= Model.Rating ? "★" : "☆")</span>
+                }
+            </div>
+            <p class="mt-2">@Model.Comment</p>
+        </div>
+
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-controller="Profile" asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

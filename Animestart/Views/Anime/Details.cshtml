@@ -1,0 +1,140 @@
+﻿@model animestart.Models.Anime
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="main-container">
+    <!-- Hero Banner Section -->
+    <div class="hero-banner">
+        <img src="@(string.IsNullOrEmpty(Model.ImagePath) ? "/images/default-anime.jpg" : Model.ImagePath)" alt="@Model.Title" class="banner-image">
+        <div class="banner-content">
+            <h2>@Model.Title</h2>
+            <p>@Model.Description</p>
+            <div class="banner-buttons">
+                <a href="#" class="btn btn-primary">Watch Now</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form asp-controller="Profile" asp-action="AddToWatchlist" method="post" class="d-inline">
+                        <input type="hidden" name="animeId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-outline-light">Add to Watchlist</button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light">Add to Watchlist</a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Anime Info Section -->
+    <section class="anime-section">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="detail-card">
+                    <h3>About @Model.Title</h3>
+                    <div class="anime-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Genre</span>
+                            <span class="stat-value">@Model.Genre</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Year</span>
+                            <span class="stat-value">@Model.Year</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Rating</span>
+                            <span class="stars">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span>@(i <= Model.Rating ? "★" : "☆")</span>
+                                }
+                            </span>
+                        </div>
+                    </div>
+                    <div class="anime-description">
+                        <p>@Model.Description</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="detail-card">
+                    <h3>Recommendations</h3>
+                    <p>If you like this anime, you might also enjoy:</p>
+                    <ul class="recommended-list">
+                        @foreach (var rec in ViewBag.RelatedAnime ?? new List<Anime>())
+                        {
+                            <li>
+                                <a asp-action="Details" asp-route-id="@rec.Id">@rec.Title</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Recommendations Section -->
+    <section class="anime-section">
+        <div class="section-header">
+            <h3>User Recommendations</h3>
+            <a href="#" class="see-all">See All</a>
+        </div>
+
+        @if (Model.Recommendations != null && Model.Recommendations.Any())
+        {
+            <div class="recommendation-list">
+                @foreach (var rec in Model.Recommendations.Take(3))
+                {
+                    <div class="recommendation-card">
+                        <div class="stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span>@(i <= rec.Rating ? "★" : "☆")</span>
+                            }
+                        </div>
+                        <p class="comment">@rec.Comment</p>
+                        <p class="user-info">Posted by User @rec.UserId</p>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No recommendations yet. Be the first to recommend this anime!</p>
+        }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="add-recommendation">
+                <h4>Add Your Recommendation</h4>
+                <form asp-controller="Recommendation" asp-action="Create" method="post">
+                    <input type="hidden" name="animeId" value="@Model.Id" />
+
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <select name="rating" class="form-control" required>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <option value="@i">@i Stars</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Your Comment</label>
+                        <textarea name="comment" class="form-control" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Submit Recommendation</button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="login-prompt">
+                <p>Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> to add your recommendation.</p>
+            </div>
+        }
+    </section>
+</div>

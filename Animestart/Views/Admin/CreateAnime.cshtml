@@ -1,0 +1,89 @@
+﻿@model animestart.Models.Anime
+@{
+    ViewData["Title"] = "Create Anime";
+}
+<div class="main-container">
+    <div class="anime-section">
+        <h2>Create New Anime</h2>
+        <form asp-action="CreateAnime" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Genre" class="control-label"></label>
+                <select asp-for="Genre" class="form-control">
+                    <option value="">-- Select Genre --</option>
+                    @foreach (var genre in ViewBag.GenreTerms)
+                    {
+                        <option value="@genre">@genre</option>
+                    }
+                </select>
+                <span asp-validation-for="Genre" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" type="number" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Rating" class="control-label"></label>
+                <input asp-for="Rating" class="form-control" type="number" min="1" max="5" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Era" class="control-label"></label>
+                <select asp-for="Era" class="form-control">
+                    <option value="">-- Select Era --</option>
+                    @foreach (var era in ViewBag.EraTerms)
+                    {
+                        <option value="@era">@era</option>
+                    }
+                </select>
+                <span asp-validation-for="Era" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="image">Image</label>
+                <input type="file" id="image" name="image" class="form-control" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Content Warnings</label>
+                <div class="checkbox-group">
+                    @foreach (var warning in ViewBag.ContentWarningTerms)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" name="SelectedWarnings" value="@warning" id="warning_@warning.Replace(" ", "_")" class="form-check-input" />
+                            <label class="form-check-label" for="warning_@warning.Replace(" ", "_")">@warning</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="ManageAnime" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

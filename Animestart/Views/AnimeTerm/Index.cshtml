@@ -1,0 +1,70 @@
+﻿@model IEnumerable<animestart.Models.AnimeTerm>
+@{
+    ViewData["Title"] = "Anime Dictionary";
+}
+
+<div class="main-container">
+    <div class="anime-section">
+        <h2>Anime Dictionary</h2>
+        <p>A comprehensive guide to anime terminology for beginners. Understand common terms, genres, and content warnings to enhance your anime experience.</p>
+
+        <!-- Filter buttons -->
+        <div class="category-filter mb-4">
+            <a asp-action="Index" class="btn @(string.IsNullOrEmpty(Context.Request.Query["category"]) ? "btn-primary" : "btn-outline-primary")">All Categories</a>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <a asp-action="Index" asp-route-category="@category"
+                   class="btn @(Context.Request.Query["category"] == category ? "btn-primary" : "btn-outline-primary")">
+                    @category
+                </a>
+            }
+        </div>
+
+        <!-- Dictionary Stats -->
+        <div class="dictionary-stats mb-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <h3>@Model.Count()</h3>
+                        <p>Terms</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <h3>@ViewBag.Categories.Count</h3>
+                        <p>Categories</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <h3>@Model.Count(t => t.Category == "Genre")</h3>
+                        <p>Genre Terms</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <h3>@Model.Count(t => t.Category == "Content Warning")</h3>
+                        <p>Content Warnings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms Grid -->
+        <div class="terms-grid">
+            @foreach (var term in Model)
+            {
+                <div class="term-card">
+                    <h4>@term.Term</h4>
+                    <h5>@term.Category</h5>
+                    <p>@term.Definition</p>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">No terms found matching your criteria.</div>
+        }
+    </div>
+</div>

@@ -1,0 +1,119 @@
+﻿@model List<Anime>
+@inject ApplicationDbContext _context
+
+@{
+    ViewData["Title"] = "Home Page";
+    var animeTerms = _context.AnimeTerms.Take(3).ToList();
+}
+<div class="main-container">
+    <!-- Hero Banner Section -->
+    <div class="hero-banner">
+        @if (Model.Any())
+        {
+            var featuredAnime = Model.First();
+            <img src="@(string.IsNullOrEmpty(featuredAnime.ImagePath) ? "/images/default-anime.jpg" : featuredAnime.ImagePath)" alt="@featuredAnime.Title" class="banner-image">
+            <div class="banner-content">
+                <h2>@featuredAnime.Title</h2>
+                <p>@featuredAnime.Description</p>
+                <div class="banner-buttons">
+                    <a asp-controller="Anime" asp-action="Details" asp-route-id="@featuredAnime.Id" class="btn btn-primary">View Now</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-controller="Profile" asp-action="AddToWatchlist" method="post" class="d-inline">
+                            <input type="hidden" name="animeId" value="@featuredAnime.Id" />
+                            <button type="submit" class="btn btn-outline-light">Add to Watchlist</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light">Add to Watchlist</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Beginner Recommended Section -->
+    <section class="anime-section">
+        <div class="section-header">
+            <h3>Beginner Recommended</h3>
+            <a href="#" class="see-all">See All</a>
+        </div>
+        <div class="anime-grid">
+            @foreach (var anime in Model.Take(8))
+            {
+                <div class="anime-card">
+                    <a asp-controller="Anime" asp-action="Details" asp-route-id="@anime.Id" class="anime-link">
+                        <div class="anime-image">
+                            <img src="@(string.IsNullOrEmpty(anime.ImagePath) ? "/images/default-anime.jpg" : anime.ImagePath)" alt="@anime.Title">
+                           
+                        </div>
+                        <div class="anime-info">
+                            <h4>@anime.Title</h4>
+                            <p>@anime.Genre</p>
+                            <div class="rating">
+                                <div class="stars">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span>@(i <= anime.Rating ? "★" : "☆")</span>
+                                    }
+                                </div>
+                               
+                            </div>
+                           
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+        <!-- Popular Starter Packs Section -->
+        <section class="anime-section">
+            <div class="section-header">
+                <h3>Popular Starter Packs</h3>
+                <a asp-controller="StarterPack" asp-action="Index" class="see-all">See All</a>
+            </div>
+            <div class="anime-grid">
+                @foreach (var pack in ((List<animestart.Models.StarterPack>)ViewBag.StarterPacks).Take(4))
+                {
+                    var firstAnime = pack.Animes.FirstOrDefault();
+                    <div class="anime-card">
+                        <a asp-controller="StarterPack" asp-action="Details" asp-route-id="@pack.Id" class="anime-link">
+                            <div class="anime-image">
+                                <img src="@(firstAnime != null && !string.IsNullOrEmpty(firstAnime.ImagePath) ? firstAnime.ImagePath : "/images/default-anime.jpg")" alt="@pack.Name">
+                            </div>
+                            <div class="anime-info">
+                                <h4>@pack.Name</h4>
+                                <p>@pack.Description</p>
+                                <div class="rating">
+                                    <div class="stars">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <span>@(i <= 4 ? "★" : "☆")</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </section>
+ 
+    <!-- Latest Anime Terms Section -->
+    <section class="anime-section">
+        <div class="section-header">
+            <h3>Latest Anime Terms</h3>
+            <a href="#" class="view-dictionary">View Dictionary</a>
+        </div>
+        <div class="terms-grid">
+            @foreach (var term in animeTerms)
+            {
+                <div class="term-card">
+                    <h4>@term.Term</h4>
+                    <h5>@term.Category</h5>
+                    <p>@term.Definition</p>
+                </div>
+            }
+        </div>
+    </section>
+</div>

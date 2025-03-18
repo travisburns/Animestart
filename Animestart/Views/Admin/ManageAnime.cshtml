@@ -1,0 +1,43 @@
+﻿@model IEnumerable<animestart.Models.Anime>
+@{
+    ViewData["Title"] = "Manage Anime";
+}
+<div class="main-container">
+    <div class="anime-section">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Manage Anime</h2>
+            <a asp-controller="Admin" asp-action="CreateAnime" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add New Anime
+            </a>
+        </div>
+        <div class="anime-grid">
+            @foreach (var anime in Model)
+            {
+                <div class="anime-card">
+                    <div class="anime-info">
+                        <div class="anime-image">
+                            <img src="@(string.IsNullOrEmpty(anime.ImagePath) ? "/images/default-anime.jpg" : anime.ImagePath)" alt="@anime.Title">
+                        </div>
+                        <h4>@anime.Title</h4>
+                        <p>@anime.Genre</p>
+                        <div class="rating">
+                            <div class="stars d-flex">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <span>@(i <= anime.Rating ? "★" : "☆")</span>
+                                }
+                            </div>
+                            <span class="difficulty">Year: @anime.Year</span>
+                        </div>
+                        <div class="mt-3">
+                            <a asp-controller="Admin" asp-action="EditAnime" asp-route-id="@anime.Id"
+                               class="btn btn-sm btn-primary me-2">Edit</a>
+                            <a asp-controller="Admin" asp-action="DeleteAnime" asp-route-id="@anime.Id"
+                               class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

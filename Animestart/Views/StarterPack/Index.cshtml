@@ -1,0 +1,35 @@
+﻿@model IEnumerable<animestart.Models.StarterPack>
+@{
+    ViewData["Title"] = "Anime Starter Packs";
+}
+
+<div class="main-container">
+    <div class="anime-section">
+        <h2>Anime Starter Packs</h2>
+        <p>Curated collections designed to help beginners explore anime with confidence. Each pack contains carefully selected shows grouped by theme, genre, or difficulty level.</p>
+
+        <!-- Starter Packs Grid -->
+        <div class="starter-packs-container">
+            @foreach (var pack in Model)
+            {
+                <div class="starter-pack-card">
+                    <div class="pack-header">
+                        <h3>@pack.Name</h3>
+                    
+                    </div>
+                    <div class="pack-body">
+                        <p>@pack.Description</p>
+                    </div>
+                    <div class="pack-footer">
+                        <a asp-action="Details" asp-route-id="@pack.Id" class="btn btn-primary">View Pack</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">No starter packs available yet.</div>
+        }
+    </div>
+</div>

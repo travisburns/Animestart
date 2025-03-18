@@ -1,0 +1,107 @@
+﻿
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="main-container">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <img src="@(string.IsNullOrEmpty(Model.User.ProfileImagePath) ? "/images/default-profile.jpg" : Model.User.ProfileImagePath)" alt="@Model.User.FirstName @Model.User.LastName" class="rounded-circle">
+            <a asp-action="EditProfile" class="edit-profile-btn">Edit Profile</a>
+        </div>
+        <div class="profile-info">
+            <h2>@Model.User.FirstName @Model.User.LastName</h2>
+            <p class="member-since">Member since @Model.User.RegistrationDate.ToString("MMMM d, yyyy")</p>
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-count">@Model.Recommendations.Count</span>
+                    <span class="stat-label">Recommendations</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-count">@Model.WatchlistItems.Count</span>
+                    <span class="stat-label">Watchlist</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-tabs">
+        <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link @(Model.ActiveTab == "Watchlist" ? "active" : "")" id="watchlist-tab" data-bs-toggle="tab" href="#watchlist" role="tab" aria-controls="watchlist" aria-selected="@(Model.ActiveTab == "Watchlist" ? "true" : "false")">Watchlist</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(Model.ActiveTab == "Recommendations" ? "active" : "")" id="recommendations-tab" data-bs-toggle="tab" href="#recommendations" role="tab" aria-controls="recommendations" aria-selected="@(Model.ActiveTab == "Recommendations" ? "true" : "false")">Your Recommendations</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="profileTabsContent">
+            <div class="tab-pane fade @(Model.ActiveTab == "Watchlist" ? "show active" : "")" id="watchlist" role="tabpanel" aria-labelledby="watchlist-tab">
+                <div class="anime-grid">
+                    @if (Model.WatchlistItems.Any())
+                    {
+                        @foreach (var item in Model.WatchlistItems)
+                        {
+                                    <div class="anime-card">
+                                        <a asp-controller="Anime" asp-action="Details" asp-route-id="@item.AnimeId" class="anime-link">
+                                            <div class="anime-image">
+                                                <img src="@(string.IsNullOrEmpty(item.Anime.ImagePath) ? "/images/default-anime.jpg" : item.Anime.ImagePath)" alt="@item.Anime.Title">
+                                            </div>
+                                            <div class="anime-info">
+                                                <h4>@item.Anime.Title</h4>
+                                                <p>@item.Anime.Genre</p>
+                                                <div class="rating">
+                                                    <div class="stars">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                                <span>@(i <= item.Anime.Rating ? "★" : "☆")</span>
+                                                }
+                                                    </div>
+                                                </div>
+                                                <form asp-action="RemoveFromWatchlist" asp-route-animeId="@item.AnimeId" method="post">
+                                                    <button type="submit" class="btn btn-danger btn-sm mt-2">Remove</button>
+                                                </form>
+                                            </div>
+                                        </a>
+                                    </div>
+                        }
+                    }
+                    else
+                    {
+                            <p>You haven't added any anime to your watchlist yet.</p>
+                    }
+                </div>
+            </div>
+            <div class="tab-pane fade @(Model.ActiveTab == "Recommendations" ? "show active" : "")" id="recommendations" role="tabpanel" aria-labelledby="recommendations-tab">
+                <div class="recommendation-list">
+                    @if (Model.Recommendations.Any())
+                    {
+                        @foreach (var rec in Model.Recommendations)
+                        {
+                                    <div class="recommendation-card">
+                                        <div class="recommendation-header">
+                                            <a asp-controller="Anime" asp-action="Details" asp-route-id="@rec.AnimeId">@rec.Anime.Title</a>
+                                        </div>
+                                        <div class="stars">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                                    <span>@(i <= rec.Rating ? "★" : "☆")</span>
+                                    }
+                                        </div>
+                                        <p class="comment">@rec.Comment</p>
+                                        <div class="recommendation-actions">
+                                            <a asp-controller="Recommendation" asp-action="Edit" asp-route-id="@rec.Id" class="btn btn-primary btn-sm">Edit</a>
+                                            <a asp-controller="Recommendation" asp-action="Delete" asp-route-id="@rec.Id" class="btn btn-danger btn-sm">Delete</a>
+                                        </div>
+                                    </div>
+                        }
+                    }
+                    else
+                    {
+                            <p>You haven't made any recommendations yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
