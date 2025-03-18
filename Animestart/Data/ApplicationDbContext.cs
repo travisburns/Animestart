@@ -12,12 +12,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    public DbSet<Anime> Animes { get; set; }
-    public DbSet<AnimeTerm> AnimeTerms { get; set; }
-    public DbSet<StarterPack> StarterPacks { get; set; }
-    public DbSet<UserRecommendation> UserRecommendations { get; set; }
+    public virtual DbSet<Anime> Animes { get; set; }
+    public virtual DbSet<AnimeTerm> AnimeTerms { get; set; }
+    public virtual DbSet<StarterPack> StarterPacks { get; set; }
+    public virtual DbSet<UserRecommendation> UserRecommendations { get; set; }
 
-    public DbSet<UserWatchlistItem> WatchlistItems { get; set; }
+    public virtual DbSet<UserWatchlistItem> WatchlistItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

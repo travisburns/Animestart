@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace animestart.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250318044250_newmigration")]
-    partial class newmigration
+    [Migration("20250318072525_azuredatabase")]
+    partial class azuredatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -474,7 +474,7 @@ namespace animestart.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "01adf994-9e85-4f85-b4b5-e98479bbe9be",
+                            ConcurrencyStamp = "4158e1fe-a11e-4d1a-902a-fcc7ef483bfc",
                             Email = "admin@animebeginners.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -482,10 +482,10 @@ namespace animestart.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ANIMEBEGINNERS.COM",
                             NormalizedUserName = "ADMIN@ANIMEBEGINNERS.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEALrc/XwEP2GX8Q0NdzSxVJO3lsYgKBs4VKsBIp9fK8CPVdmNatwYsShts6I+WyPaA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELU6ksH7OchBUsmg2RET+MUJBikSomWIp3bAxTbDvMI6kFCu4FYA3/D9BOwa9Ra5YQ==",
                             PhoneNumberConfirmed = false,
-                            RegistrationDate = new DateTime(2025, 3, 17, 21, 42, 49, 908, DateTimeKind.Local).AddTicks(4147),
-                            SecurityStamp = "4f478586-f2ba-424e-ae1d-4edf5d150712",
+                            RegistrationDate = new DateTime(2025, 3, 18, 0, 25, 25, 187, DateTimeKind.Local).AddTicks(3446),
+                            SecurityStamp = "f9773387-204b-4ff3-8bd5-941d25fd7877",
                             TwoFactorEnabled = false,
                             UserName = "admin@animebeginners.com"
                         });

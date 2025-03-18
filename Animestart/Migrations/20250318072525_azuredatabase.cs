@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace animestart.Migrations
 {
     /// <inheritdoc />
-    public partial class newmigration : Migration
+    public partial class azuredatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -366,7 +366,7 @@ namespace animestart.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileImagePath", "RegistrationDate", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "01adf994-9e85-4f85-b4b5-e98479bbe9be", "admin@animebeginners.com", true, "Admin", "User", false, null, "ADMIN@ANIMEBEGINNERS.COM", "ADMIN@ANIMEBEGINNERS.COM", "AQAAAAIAAYagAAAAEALrc/XwEP2GX8Q0NdzSxVJO3lsYgKBs4VKsBIp9fK8CPVdmNatwYsShts6I+WyPaA==", null, false, null, new DateTime(2025, 3, 17, 21, 42, 49, 908, DateTimeKind.Local).AddTicks(4147), "4f478586-f2ba-424e-ae1d-4edf5d150712", false, "admin@animebeginners.com" });
+                values: new object[] { "1", 0, "4158e1fe-a11e-4d1a-902a-fcc7ef483bfc", "admin@animebeginners.com", true, "Admin", "User", false, null, "ADMIN@ANIMEBEGINNERS.COM", "ADMIN@ANIMEBEGINNERS.COM", "AQAAAAIAAYagAAAAELU6ksH7OchBUsmg2RET+MUJBikSomWIp3bAxTbDvMI6kFCu4FYA3/D9BOwa9Ra5YQ==", null, false, null, new DateTime(2025, 3, 18, 0, 25, 25, 187, DateTimeKind.Local).AddTicks(3446), "f9773387-204b-4ff3-8bd5-941d25fd7877", false, "admin@animebeginners.com" });
 
             migrationBuilder.InsertData(
                 table: "StarterPacks",

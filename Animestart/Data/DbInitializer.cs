@@ -9,10 +9,12 @@ namespace animestart.Data
     {
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new ApplicationDbContext(
-                serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
+            using (var scope = serviceProvider.CreateScope())
             {
-                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                await context.Database.MigrateAsync();
+
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                 // Create roles if they don't exist
                 if (!await roleManager.RoleExistsAsync(RoleConstants.Administrator))
