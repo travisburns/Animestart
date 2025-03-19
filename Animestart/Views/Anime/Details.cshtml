@@ -11,7 +11,7 @@
             <h2>@Model.Title</h2>
             <p>@Model.Description</p>
             <div class="banner-buttons">
-                <a href="#" class="btn btn-primary">Watch Now</a>
+                
                 @if (User.Identity.IsAuthenticated)
                 {
                     <form asp-controller="Profile" asp-action="AddToWatchlist" method="post" class="d-inline">
@@ -78,7 +78,7 @@
     <section class="anime-section">
         <div class="section-header">
             <h3>User Recommendations</h3>
-            <a href="#" class="see-all">See All</a>
+            
         </div>
 
         @if (Model.Recommendations != null && Model.Recommendations.Any())
@@ -133,7 +133,7 @@
         else
         {
             <div class="login-prompt">
-                <p>Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> to add your recommendation.</p>
+                <p>Please <a asp-controller="Account" asp-action="Login">log in</a> to add your recommendation.</p>
             </div>
         }
     </section>

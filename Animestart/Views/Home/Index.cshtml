@@ -37,7 +37,7 @@
     <section class="anime-section">
         <div class="section-header">
             <h3>Beginner Recommended</h3>
-            <a href="#" class="see-all">See All</a>
+            <a asp-controller="Anime" asp-action="Index" class="see-all">See All</a>
         </div>
         <div class="anime-grid">
             @foreach (var anime in Model.Take(8))
@@ -103,7 +103,7 @@
     <section class="anime-section">
         <div class="section-header">
             <h3>Latest Anime Terms</h3>
-            <a href="#" class="view-dictionary">View Dictionary</a>
+                <a asp-controller="AnimeTerm" asp-action="Index" class="view-dictionary">View Dictionary</a>
         </div>
         <div class="terms-grid">
             @foreach (var term in animeTerms)
