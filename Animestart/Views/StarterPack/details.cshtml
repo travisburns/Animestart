@@ -18,8 +18,8 @@
                     {
                         <div class="anime-card">
                             <div class="anime-image">
-                                <img src="/images/default-anime.jpg" alt="@anime.Title">
-                                <span class="badge">SUB/DUB</span>
+                                <img src="@(string.IsNullOrEmpty(anime.ImagePath) ? "/images/default-anime.jpg" : anime.ImagePath)" alt="@anime.Title">
+                                
                             </div>
                             <div class="anime-info">
                                 <h4>@anime.Title</h4>
